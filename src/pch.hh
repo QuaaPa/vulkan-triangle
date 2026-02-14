@@ -1,6 +1,10 @@
 #ifndef PCH_H
 #define PCH_H
 
+// Vulkan
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
+
 // .std
 #include <iostream>
 #include <fstream>
