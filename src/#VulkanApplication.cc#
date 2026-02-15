@@ -221,6 +221,9 @@ void VulkanApplication::pickPhysicalDevice() {
     }
 }
 
+// Physical device represents the actual hardware that supports Vulkan,
+// while a logical device is an interface
+// created to interact with that physical device
 void VulkanApplication::createLogicalDevice() {
     QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 
