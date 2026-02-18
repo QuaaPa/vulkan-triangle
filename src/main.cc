@@ -1,4 +1,3 @@
-
 #include "pch.hh"
 
 #include "VulkanApplication.hh"

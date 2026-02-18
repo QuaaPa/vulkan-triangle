@@ -759,11 +759,13 @@ QueueFamilyIndices VulkanApplication::findQueueFamilies(VkPhysicalDevice device)
     QueueFamilyIndices indices;
 
     uint32_t queueFamilyCount = 0;
-    vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
-
+    // Getting a number of Family queue    
+    vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr); 
+    // Getting data of Family queue
     std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
     vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
+    // Looking for Graphics Family queue    
     int i = 0;
     for (const auto& queueFamily : queueFamilies) {
         if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
