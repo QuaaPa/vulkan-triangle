@@ -272,12 +272,16 @@ void VulkanApplication::createLogicalDevice() {
 }
 
 void VulkanApplication::createSwapChain() {
+    // Querying properties:
     SwapChainSupportDetails swapChainSupport = querySwapChainSupport(physicalDevice);
 
+    // Choose the right settings
     VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
     VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
     VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
+    /* ""Swap extent(resolution of images in swap chain */
 
+    // How many images we would like to have in the swap chain
     uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
     if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount) {
         imageCount = swapChainSupport.capabilities.maxImageCount;
@@ -670,7 +674,8 @@ VkShaderModule VulkanApplication::createShaderModule(const std::vector<char>& co
 
 VkSurfaceFormatKHR VulkanApplication::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
     for (const auto& availableFormat : availableFormats) {
-        if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
+      if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB &&
+          availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
             return availableFormat;
         }
     }
@@ -681,10 +686,14 @@ VkSurfaceFormatKHR VulkanApplication::chooseSwapSurfaceFormat(const std::vector<
 VkPresentModeKHR VulkanApplication::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
     for (const auto& availablePresentMode : availablePresentModes) {
         if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
-            return availablePresentMode;
+            /* Triple buffering present mode
+               (When the queue is full,
+               the images that are already queued are simply replaced with newer)
+            */
+            return availablePresentMode;                           
         }
     }
-
+    // The default present mode is "vertical blank"
     return VK_PRESENT_MODE_FIFO_KHR;
 }
 
@@ -710,16 +719,17 @@ VkExtent2D VulkanApplication::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& c
 SwapChainSupportDetails VulkanApplication::querySwapChainSupport(VkPhysicalDevice device) {
     SwapChainSupportDetails details;
 
+    // Query surface capabilities:
     vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
 
+    // Query color formats supported by surface:
     uint32_t formatCount;
     vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
-
     if (formatCount != 0) {
         details.formats.resize(formatCount);
         vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, details.formats.data());
     }
-
+    // Query supported presentation modes for a surface call:
     uint32_t presentModeCount;
     vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, nullptr);
 

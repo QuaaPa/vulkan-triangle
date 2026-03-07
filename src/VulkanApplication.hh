@@ -31,6 +31,7 @@ struct QueueFamilyIndices {
     }
 };
 
+// Three general properties of swapchain
 struct SwapChainSupportDetails {
     VkSurfaceCapabilitiesKHR capabilities;
     std::vector<VkSurfaceFormatKHR> formats;
