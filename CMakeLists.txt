@@ -1,13 +1,19 @@
 # ----------------------------------------
 #
 # release configurations with this command:
-#     cmake .. -DCMAKE_BUILD_TYPE=Release
+#     cmake -B build . -DCMAKE_BUILD_TYPE=Release
+#
+# ninja generator:
+#     cmake -G Ninja -B build . -DCMAKE_BUILD_TYPE=Release
 #
 # ----------------------------------------
 # ----------------------------------------
 #
 # debug configurations with this command:
-#     cmake .. -DCMAKE_BUILD_TYPE=Debug
+#     cmake -B build . -DCMAKE_BUILD_TYPE=Debug
+#
+# ninja generator:
+#     cmake -G Ninja -B build . -DCMAKE_BUILD_TYPE=Debug
 #
 # ----------------------------------------
 
