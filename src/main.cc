@@ -53,8 +53,10 @@ void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT
 
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
-    std::optional<uint32_t> presentFamily;
-
+	std::optional<uint32_t> presentFamily;
+	
+    std::optional<uint32_t> transferFamily;
+	
     bool isComplete() {
         return graphicsFamily.has_value() && presentFamily.has_value();
     }
@@ -95,6 +97,13 @@ struct Vertex {
         return attributeDescriptions;
     }
 };
+
+struct UniformBufferObject {
+	glm::mat4 model;
+    glm::mat4 view;
+    glm::mat4 proj;	
+};
+
 
 const std::vector<Vertex> vertices = {
     {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
@@ -513,8 +522,8 @@ private:
     }
 
     void createGraphicsPipeline() {
-        auto vertShaderCode = readFile("res/shaders/vert.spv");
-        auto fragShaderCode = readFile("res/shaders/frag.spv");
+        auto vertShaderCode = readFile("res/shaders/vertex.spv");
+        auto fragShaderCode = readFile("res/shaders/fragment.spv");
 
         VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
         VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
@@ -1058,6 +1067,7 @@ private:
             i++;
         }
 
+		
         return indices;
     }
 
